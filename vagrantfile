@@ -1,8 +1,12 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "debian/jessie64"
 
-  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-  config.vm.network "forwarded_port", guest: 8888, host: 8081, host_ip: "127.0.0.1"
+  config.vagrant.plugins = ["vagrant-vbguest", "vagrant-disksize"]
+  config.disksize.size = "10GB"
+
+#  config.vm.network "public_network"
+#  config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+#  config.vm.network "forwarded_port", guest: 8888, host: 8081, host_ip: "127.0.0.1"
 
   config.vm.provider "virtualbox" do |vb|
      vb.memory = "2048"
@@ -27,7 +31,7 @@ Vagrant.configure("2") do |config|
 
 	apt-get install -y ca-certificates apt-transport-https
 	echo "deb https://packages.sury.org/php/ jessie main" >> /etc/apt/sources.list
-      apt-get -y update
+        apt-get -y update
 	apt-get install -y php5.6 --force-yes
 
   SHELL
